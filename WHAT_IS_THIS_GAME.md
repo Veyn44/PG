@@ -79,6 +79,19 @@ When the resource is exhausted, the player can end the day. The day-end transiti
 
 Time therefore behaves more like a turn-based strategy or a day-based colony simulation than a continuously running real-time simulation while the player works around the base.
 
+### 4.2 Colony Leader and Base Control
+
+The colony has a designated **Colony Leader**. This is the character selected as the player's current protagonist and the pawn that can be directly controlled by the player.
+
+In the colony, the Colony Leader can be drafted or undrafted:
+
+- **Drafted:** The player directly controls the leader.
+- **Undrafted:** The leader is controlled by the normal character AI and can act autonomously.
+
+This allows the player to spend time watching the colony and its characters behave without constantly controlling the protagonist — a more cinematic or observational way to play.
+
+The leader remains a normal pawn using the same character and AI systems as other pawns when undrafted.
+
 ## 5. Underground Locations and Expeditions
 
 The elevator/transport system provides access to different locations within the underground cities and complexes.
@@ -104,9 +117,34 @@ The player can:
 - Go alone.
 - Take a group of companion pawns.
 
-The player directly controls one pawn at a time using direct character control. Other pawns act autonomously under AI control and follow assigned behaviour presets and situational decisions.
+The player directly controls the designated Colony Leader during an expedition. In this mode the leader must remain drafted: companions using the **Follow** behaviour need the protagonist to act as their moving reference point.
+
+The player cannot switch direct control to another pawn during an expedition. Other pawns act autonomously under AI control and follow assigned behaviour presets and situational decisions.
 
 The expedition simulation can be paused. While paused, the player can issue orders to companions, including during dangerous situations.
+
+### 5.3 Player Incapacitation, Death, and Mission Withdrawal
+
+If the player-controlled Colony Leader becomes incapacitated during an expedition, the companions should recognise the situation and attempt to initiate a retreat.
+
+The squad should attempt to:
+
+- Break off or disengage from the mission.
+- Recover the incapacitated leader if possible.
+- Carry or otherwise transport the leader back.
+- Return to safety rather than continuing the mission as if nothing happened.
+
+This is intended to work like a **retreat / abandon mission** behaviour. The AI should attempt this when it judges that withdrawal is possible; success is not guaranteed.
+
+If the Colony Leader dies during an expedition:
+
+- The player cannot take direct control of another squad member in the field.
+- The remaining AI-controlled companions should attempt to withdraw from the mission if they can.
+- The player chooses a new Colony Leader / player-controlled pawn after returning to the colony.
+
+The death of the current leader does not automatically end the entire game. The colony and wider game continue, and another available pawn can become the new Colony Leader.
+
+The exact conditions, risks, and possible outcomes of a retreat, as well as the detailed leader-selection rules, are not yet defined.
 
 ## 6. Characters and Shared Pawn System
 
@@ -126,7 +164,7 @@ The difference between modes is how the pawn is controlled and how the surroundi
 
 ## 7. Squad Control and Companion AI
 
-Only one pawn can be directly controlled by the player at a time.
+Only the designated Colony Leader can be directly controlled by the player. Other squad members are not directly draftable by the player, including during expeditions.
 
 Other members of the expedition group are autonomous. The player gives them higher-level behaviour presets/orders rather than directly controlling every movement and action.
 
@@ -156,54 +194,40 @@ The goal is to avoid requiring the player to micromanage every companion as in a
 
 The AI does not need to be infinitely complex. It needs to be reliable and capable enough to make sensible decisions within the scope of this game.
 
-### 7.2 Incapacitated Player and Retreat
+### 7.2 Protagonist AI and Undrafting
 
-If the player-controlled pawn becomes incapacitated during an expedition, the companions should recognise the situation and initiate a retreat.
+The Colony Leader is not permanently under direct player control.
 
-The squad should attempt to:
+In the colony, the player can undraft the leader. The leader then uses the same basic character AI as other pawns and behaves autonomously. This supports an observational or cinematic play style in which the player can watch the protagonist and colony act without directly steering every movement.
 
-- Break off or disengage from the mission.
-- Recover the incapacitated leader if possible.
-- Carry or otherwise transport the leader back.
-- Return to safety rather than continuing the mission as if nothing happened.
+During expeditions, however, the Colony Leader must remain drafted and directly controlled by the player. This gives the Follow behaviour a clear, moving protagonist to follow and preserves the intended expedition control model.
 
-This is intended to work like a **retreat / abandon mission** behaviour.
-
-The exact conditions, risks, and possible outcomes of a retreat are not yet defined.
-
-## 8. Death of the Player-Controlled Pawn
-
-The death of the currently player-controlled pawn should not automatically end the entire game.
-
-If that pawn dies, the player can take control of another available pawn.
-
-The colony and the wider game continue. The player is not permanently identical to one individual character; the player controls the colony and takes direct control of one of its characters at a time.
-
-The detailed rules for selecting the replacement pawn and handling the death and its consequences are not yet defined.
-
-## 9. Core Design Decisions Established So Far
+## 8. Core Design Decisions Established So Far
 
 The following points are accepted parts of the current vision:
 
 1. The game has one permanent home base.
 2. The home base is an underground colony on a planet with extreme surface temperatures.
-3. The player directly controls one pawn using WASD while moving around the base.
-4. Base activities use a limited daily action resource, currently called Pawn Points or Stamina.
-5. The base day is resolved when the player ends the day; it is not intended to be a continuously time-pressured real-time experience.
-6. The player travels from the base to separate underground locations using an elevator/transport system.
-7. Expedition locations should preserve their state so the player can return later.
-8. Not every persistent location needs to remain loaded/active simultaneously.
-9. Expeditions use top-down action/shooter gameplay.
-10. The player can travel alone or with companions.
-11. Only one pawn is directly controlled by the player at a time.
-12. Companions use autonomous AI and higher-level behaviour presets.
-13. The expedition can be paused so the player can issue orders.
-14. Companion AI should be capable of autonomous combat and situational decisions.
-15. If the controlled pawn is incapacitated, companions should attempt to retreat and recover the leader.
-16. If the controlled pawn dies, the player can continue by taking control of another pawn.
-17. Characters use the same shared pawn system and retain their identity and relevant data across the base and expedition modes.
+3. The player directly controls the designated Colony Leader using WASD when that pawn is drafted.
+4. The Colony Leader can be undrafted in the colony and then acts under normal character AI.
+5. Base activities use a limited daily action resource, currently called Pawn Points or Stamina.
+6. The base day is resolved when the player ends the day; it is not intended to be a continuously time-pressured real-time experience.
+7. The player travels from the base to separate underground locations using an elevator/transport system.
+8. Expedition locations should preserve their state so the player can return later.
+9. Not every persistent location needs to remain loaded/active simultaneously.
+10. Expeditions use top-down action/shooter gameplay.
+11. The player can travel alone or with companions.
+12. The Colony Leader must remain drafted and directly controlled during expeditions.
+13. The player cannot switch direct control to another pawn during an expedition.
+14. Other pawns are controlled by autonomous AI and higher-level behaviour presets; the player does not directly draft them.
+15. The expedition can be paused so the player can issue orders.
+16. Companion AI should be capable of autonomous combat and situational decisions.
+17. If the leader is incapacitated, companions should attempt to retreat and recover the leader if possible.
+18. If the leader dies, companions should attempt to withdraw if possible; the player selects a replacement leader after returning to the colony.
+19. The death of the current leader does not automatically end the game.
+20. Characters use the same shared pawn system and retain their identity and relevant data across the base and expedition modes.
 
-## 10. Ideas That Are Not Yet Fixed
+## 9. Ideas That Are Not Yet Fixed
 
 These ideas have been mentioned but should not be treated as mandatory or fully specified:
 
@@ -211,10 +235,11 @@ These ideas have been mentioned but should not be treated as mandatory or fully 
 - The exact sequence of events before the player wakes up.
 - The final name and rules of the daily action resource (Pawn Points / Stamina).
 - The maximum number of persistent or simultaneously loaded expedition maps.
-- The exact mechanics and limits of retreat and leader recovery.
-- The detailed rules for choosing a replacement pawn after the controlled pawn dies.
+- The exact mechanics, risks, and limits of retreat and leader recovery.
+- The detailed rules for selecting a replacement Colony Leader.
+- The exact set of behaviours available to the Colony Leader when undrafted.
 
-## 11. Purpose and Status of This Document
+## 10. Purpose and Status of This Document
 
 This document records the game vision as currently described by its creator.
 
