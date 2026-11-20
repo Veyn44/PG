@@ -1,3 +1,4 @@
+using PG.Presentation.UI;
 using Raylib_cs;
 
 namespace PG.App.Bootstrap;
@@ -21,24 +22,21 @@ public sealed class GameApplication
     private static void InitializeWindow()
     {
         Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
-        Raylib.InitWindow(1280, 720, "PG - zakladni okno");
-        Raylib.SetWindowState(ConfigFlags.HiddenWindow);
-        Raylib.ClearWindowState(ConfigFlags.HiddenWindow);
+        Raylib.InitWindow(1280, 720, "PG");
         Raylib.SetTargetFPS(60);
     }
 
     private static void RunMainLoop()
     {
-        while (!Raylib.WindowShouldClose())
+        var mainMenu = new MainMenu();
+
+        while (!Raylib.WindowShouldClose() && !mainMenu.ExitRequested)
         {
-            if (Raylib.IsKeyPressed(KeyboardKey.F11))
-            {
-                Raylib.ToggleBorderlessWindowed();
-            }
+            mainMenu.Update();
 
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(new Color(24, 24, 30, 255));
-            Raylib.DrawText("PG - zakladni okno", 520, 340, 40, Color.White);
+            Raylib.ClearBackground(new Color(18, 20, 26, 255));
+            mainMenu.Draw();
             Raylib.EndDrawing();
         }
     }
