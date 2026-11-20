@@ -1,4 +1,4 @@
 @echo off
-title MG - Herni smycka
+title PG - Herni smycka
 dotnet watch run
 pause
