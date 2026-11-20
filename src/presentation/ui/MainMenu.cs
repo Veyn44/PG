@@ -189,7 +189,7 @@ public sealed class MainMenu
         var centerX = Raylib.GetScreenWidth() / 2f;
         var centerY = Raylib.GetScreenHeight() / 2f;
 
-        return new Rectangle(centerX - 135, centerY + 115, 270, 42);
+        return new Rectangle(centerX - 135, centerY + 80, 270, 42);
     }
 
     private static Rectangle BackButton()
