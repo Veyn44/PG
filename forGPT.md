@@ -94,14 +94,17 @@ The assistant is not merely an order-taker. It must act as a technical reference
 
 ## 8. Current Project State
 
-- Repository: `Veyn44/PlaceholderGame`
-- Default branch: `main`
-- No game code has been started yet.
-- Current work is vision and technical preparation.
-- The game vision is recorded in `WHAT_IS_THIS_GAME.md`.
-- The initial architecture/technical map is recorded in `GAME_TECHNICAL_KNOW_HOW.md`.
-- This handover file is the new persistent working guide.
-- Do not begin implementation until the creator decides the preparation is sufficient.
+- Active repository: `Veyn44/PG`, default branch `main`.
+- The project uses .NET 8, C#, and Raylib-cs 8.1.0.
+- `Program.cs` starts `PG.App.Bootstrap.GameApplication`.
+- `src/app/bootstrap/GameApplication.cs` owns the initial window and application loop.
+- `src/presentation/ui/MainMenu.cs` implements the initial main menu and its Options/Developer Mode placeholder pages.
+- Main menu entries: New Game, Load Game, Options, Exit.
+- Developer Mode is intentionally nested inside Options, not shown as a permanent main-menu button.
+- New Game, Load Game, actual settings, and developer tools are placeholders, not implemented functionality.
+- Window starts at 1280 × 720, is resizable, and currently targets 60 FPS.
+- The menu and application shell have not yet been built or run on the creator's computer. Do not claim runtime verification.
+- The game vision is recorded in `WHAT_IS_THIS_GAME.md`; technical implementation details are recorded in `GAME_TECHNICAL_KNOW_HOW.md`.
 
 ## 9. How to Resume
 
