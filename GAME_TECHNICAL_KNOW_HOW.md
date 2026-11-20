@@ -625,6 +625,75 @@ When a decision is reversed, do not silently erase the old reasoning if it could
 
 ## 13. Initial Implementation Record
 
-No game implementation has started yet. The systems and folders described in this document are architectural predictions, not verified code.
+Gameplay implementation has not started. The game systems and folders described above remain architectural predictions unless a later implementation record explicitly marks them as implemented or verified.
 
-At the beginning of implementation, create or expand system records as each system is designed and built. Do not pre-fill fictitious file paths, classes, APIs, tests, or implementation details.
+The application shell and initial menu UI are implemented and recorded in Section 14. Their runtime behaviour has not yet been verified on the creator's computer.
+
+
+## 14. Application Startup and Main Menu
+
+**Status:** Implemented in source; build and runtime behaviour not yet verified on the creator's computer.
+
+### 14.1 Responsibility and Files
+
+- `Program.cs` is the process entry point. It creates `GameApplication` and calls `Run()`.
+- `src/app/bootstrap/GameApplication.cs` owns application startup, the Raylib window lifetime, the application loop, and shutdown.
+- `src/presentation/ui/MainMenu.cs` owns the initial menu presentation, menu-page state, mouse interaction, and menu navigation.
+
+The main menu is the first application screen. Starting the application no longer enters a generic test screen.
+
+### 14.2 Main Menu Structure
+
+The main menu currently displays:
+- New Game
+- Load Game
+- Options
+- Exit
+
+New Game and Load Game are visible placeholders. Selecting either displays a notice that the feature is not implemented; neither creates or loads a game session.
+
+Exit sets the menu's exit request. The application loop then ends and the `finally` block in `GameApplication.Run()` closes the Raylib window.
+
+### 14.3 Options and Developer Mode Placement
+
+Options opens a separate menu page. It currently contains:
+- A placeholder area for future display, audio, and gameplay settings.
+- A smaller nested Developer Mode card.
+
+Selecting Developer Mode opens a placeholder information page. No developer tools or game inspection functionality are implemented yet. This keeps Developer Mode discoverable during development while avoiding a separate permanent button on the main menu.
+
+Escape navigates back one menu level from the Developer Mode page to Options, or from Options to the main menu.
+
+### 14.4 Runtime and Presentation Flow
+
+Each application-loop iteration:
+1. The application asks `MainMenu` to process input.
+2. Raylib begins drawing and clears the frame.
+3. `MainMenu` draws the current page.
+4. Raylib ends the frame.
+
+The menu uses mouse hit-testing against the same rectangles used to draw its buttons. The layout is positioned relative to the current window dimensions so the menu remains centred when the resizable window changes size.
+
+### 14.5 Window Configuration
+
+The initial window size remains 1280 × 720. `ConfigFlags.ResizableWindow` allows resizing, and the application currently targets 60 FPS.
+
+The previous HiddenWindow set/clear pair was removed because the application does not need to hide the window during startup. The earlier F11 borderless-window toggle was also removed; it was not part of the agreed menu design.
+
+### 14.6 Boundaries and Dependencies
+
+The application layer controls the lifetime of the menu and the application. It does not own the menu's visual layout or hit-testing details.
+
+The menu currently depends directly on Raylib-cs for drawing, mouse input, screen dimensions, and keyboard Escape handling. This is an explicit early implementation choice, not a final platform abstraction. The game domain and gameplay rules do not depend on this menu.
+
+### 14.7 Limitations and Verification
+
+Not implemented:
+- New game creation.
+- Save discovery and loading.
+- Functional display, audio, or gameplay settings.
+- Developer tools.
+- Keyboard/controller navigation for menu buttons.
+- A final art style, background, logo, or menu assets.
+
+No build or runtime test has been run in the creator's environment. Source presence must not be described as runtime verification.
